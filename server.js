@@ -1,5 +1,13 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const expressApp = express();
+
+//DB config
+const dbConnectionString = require('./config/keys').mongoURI
+mongoose
+.connect(dbConnectionString)
+.then(()=> console.log('MongoDB Connected!'))
+.catch(err => console.log(err)) ;
 
 //Let's write our first route
 expressApp.get('/',(req,res)=>{
