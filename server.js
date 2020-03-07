@@ -1,6 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const users = require('./routes/api/users');
+const posts = require('./routes/api/posts');
+const profile = require('./routes/api/profile');
+
 const expressApp = express();
+
 
 //DB config
 const dbConnectionString = require('./config/keys').mongoURI
@@ -13,6 +18,10 @@ mongoose
 expressApp.get('/',(req,res)=>{
    res.send('Hello');
 })
+
+expressApp.use('/api/users',users);
+expressApp.use('/api/posts',posts);
+expressApp.use('/api/profile',profile);
 
 const port= 8020;
 
