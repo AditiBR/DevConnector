@@ -8,13 +8,13 @@ const router = express.Router();  // rather than instantiating whole express jus
 // @route POST api/users/register
 // @desc Register User route
 // @access Public
-router.get('/register', (req,res) => {
-UserModel.findOne({email: req.body.email})   //req.body.email - this email should math the textbox name on UI
-.then(user => {
-    if(user){
+router.post('/register', (req,res) => {   
+    UserModel.findOne({email: req.body.email})   //req.body.email - this email should math the textbox name on UI
+        .then(user => {
+        if(user){
         return res.status(400).json({email: 'Email alreday exists!'});   //response needs to have response code
-    }
-    else{
+        }
+        else{
         const avatar = gravatar.url(req.body.email, {
             s: 200,  // size
             r: 'pg', // rating
