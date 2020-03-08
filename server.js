@@ -1,10 +1,17 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+
 const users = require('./routes/api/users');
 const posts = require('./routes/api/posts');
 const profile = require('./routes/api/profile');
 
 const expressApp = express();
+
+//Body parser middleware.. express is the one getting data. urlencoded - textbox might have some characters
+// extended - you can come up with your own encoding
+expressApp.use(bodyParser.urlencoded({extended: false}));
+expressApp.use(bodyParser.json());
 
 
 //DB config
