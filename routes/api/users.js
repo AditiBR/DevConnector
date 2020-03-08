@@ -2,6 +2,8 @@ const express = require('express');
 const UserModel = require('../../models/User');
 const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const keys = require('../../config/keys');
 
 const router = express.Router();  // rather than instantiating whole express just instantiate router part of express
 
@@ -57,7 +59,27 @@ router.post('/login', (req,res) => {
             bcrypt.compare(req.body.password, user.password)
             .then(isMatch => {
                 if(isMatch){
-                    return res.json({msg: 'Success logging in!'})
+                    //return res.json({msg: 'Success logging in!'})
+
+                    //User matched. 
+                    //Payload
+                    const payload= {
+                        id:user.id,
+                        name: user.name,
+                        avatar: user.avatar
+                    };
+
+                    //Sign token (create token)
+                    jwt.sign(
+                        payload, 
+                        keys.secretOrKey,
+                        {expiresIn: 3600},
+                        (err,token)=>{
+                            res.json({
+                                success:true,
+                                token: 'Bearer ' + token
+                            })
+                        });
                 } else {
                     return res.status(400).json({password: 'Password Incorrect!'});
                 }
