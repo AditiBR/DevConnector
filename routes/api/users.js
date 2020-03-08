@@ -44,4 +44,28 @@ router.post('/register', (req,res) => {
 .catch(err => console.log(err)) 
 });
 
+// @route POST api/users/login
+// @desc User login route
+// @access Public
+
+router.post('/login', (req,res) => {
+    UserModel.findOne({email: req.body.email})
+    .then(user => {
+        if(!user){
+            return res.status(404).json({email: 'User not found!'});
+        } else {        
+            bcrypt.compare(req.body.password, user.password)
+            .then(isMatch => {
+                if(isMatch){
+                    return res.json({msg: 'Success logging in!'})
+                } else {
+                    return res.status(400).json({password: 'Password Incorrect!'});
+                }
+            })
+            .catch(err => console.log(err)) // if we dont write this catch then if we provide correct email and no pasword then Postman will hang
+        }
+    })
+    .catch(err => console.log(err));
+})
+
 module.exports =router;
