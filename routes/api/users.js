@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken');
 const keys = require('../../config/keys');
 const passport = require('passport');
 const validateRegisterInput = require('./Validation/register');
+const validateLoginInput = require('./Validation/login');
 
 const router = express.Router();  // rather than instantiating whole express just instantiate router part of express
 
@@ -17,7 +18,6 @@ router.post('/register', (req,res) => {
     //validate register inputs
     // const validationOutput = validateRegisterInput(req.body);
     // if(validationOutput.isValid)
-
     const {errors, isValid} = validateRegisterInput(req.body);   // use javascript deconstruction
     if(!isValid){
         return res.status(400).json(errors);
@@ -63,6 +63,13 @@ router.post('/register', (req,res) => {
 // @access Public
 
 router.post('/login', (req,res) => {
+
+     //validate login inputs
+     const {errors, isValid} = validateLoginInput(req.body);
+     if(!isValid){
+        return res.status(400).json(errors);
+     }
+
     UserModel.findOne({email: req.body.email})
     .then(user => {
         if(!user){

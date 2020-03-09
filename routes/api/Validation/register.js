@@ -12,7 +12,7 @@ module.exports = function validateRegisterInput(data){   //old way
         errors.name = 'Name must be between 2 and 30';        
     }
     //we can't have this before above validation 
-    if(isEmpty(data.name)){
+    if(isEmpty(data.name)){                        //  if(validator.isEmpty(data.name)){  this also works-tested
         errors.name = 'Name field is required';   
     }
 
@@ -37,8 +37,7 @@ module.exports = function validateRegisterInput(data){   //old way
         errors.password2 = 'Confirm password field is required';   
     }
     if(!validator.equals(data.password, data.password2)){
-        errors.password = 'Passwords must match'; 
-           
+        errors.password = 'Passwords must match';            
     } 
 
     return {
