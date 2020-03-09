@@ -10,9 +10,23 @@ opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 opts.secretOrKey = keys.secretOrKey;
 
 //jwt_payload is the decrypted payload 
-module.exports = passport => {
+
+module.exports = passport => {   
     passport.use(new JwtStrategy(opts, (jwt_payload, done) => {
         console.log(jwt_payload);
+
+        //Varify if the token is valid
+        UserModel.findById(jwt_payload.id)
+        .then(user =>{
+            if(user){
+                return done(null, user)
+            } else{
+                return done(null, false)
+            }           
+        })
+       .catch(err => console.log(err))
+        //.catch(error => console.log(done(error)));
+
     }) )
 }
 
