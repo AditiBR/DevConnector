@@ -5,6 +5,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const keys = require('../../config/keys');
 const passport = require('passport');
+const validateRegisterInput = require('./Validation/register');
 
 const router = express.Router();  // rather than instantiating whole express just instantiate router part of express
 
@@ -12,6 +13,16 @@ const router = express.Router();  // rather than instantiating whole express jus
 // @desc Register User route
 // @access Public
 router.post('/register', (req,res) => {   
+
+    //validate register inputs
+    // const validationOutput = validateRegisterInput(req.body);
+    // if(validationOutput.isValid)
+
+    const {errors, isValid} = validateRegisterInput(req.body);   // use javascript deconstruction
+    if(!isValid){
+        return res.status(400).json(errors);
+    }
+
     UserModel.findOne({email: req.body.email})   //req.body.email - this email should math the textbox name on UI
         .then(user => {
         if(user){
@@ -99,7 +110,11 @@ router.get(
     '/current', 
     passport.authenticate('jwt', {session: false}), // This is an extra step private vs public route.. session - if we login to facebook in a browser and try to open another instance of browser it recognizes you there session = true. for bank website sesion = false
     (req,res) =>{
-        res.json({msg: 'Success'});    
+        res.json({
+            id: req.user.id,
+            name: req.user.name,
+            email: req.user.email
+        });    
 
     })
 

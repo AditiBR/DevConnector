@@ -25,6 +25,7 @@ module.exports = passport => {
             }           
         })
        .catch(err => console.log(err)) 
+       //.catch(error => console.log(done(error)));  // How to validate this path?
 
     }) )
 }
