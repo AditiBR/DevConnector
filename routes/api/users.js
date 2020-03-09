@@ -4,6 +4,7 @@ const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const keys = require('../../config/keys');
+const passport = require('passport');
 
 const router = express.Router();  // rather than instantiating whole express just instantiate router part of express
 
@@ -89,5 +90,18 @@ router.post('/login', (req,res) => {
     })
     .catch(err => console.log(err));
 })
+
+
+// @route GET api/users/current
+// @desc Return current information
+// @access Private - Private route means you are supposed to authenticate yourself
+router.get(
+    '/current', 
+    passport.authenticate('jwt', {session: false}), // This is an extra step private vs public route.. session - if we login to facebook in a browser and try to open another instance of browser it recognizes you there session = true. for bank website sesion = false
+    (req,res) =>{
+        res.json({msg: 'Success'});    
+
+    })
+
 
 module.exports =router;
