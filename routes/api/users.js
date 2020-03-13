@@ -112,10 +112,10 @@ router.post('/login', (req,res) => {
 
 // @route GET api/users/current
 // @desc Return current information
-// @access Private 
+// @access Private - - Private route means you are supposed to authenticate yourself
 router.get(
     '/current', 
-    passport.authenticate('jwt', {session: false}), 
+    passport.authenticate('jwt', {session: false}),  // This is an extra step private vs public route.. session - if we login to facebook in a browser and try to open another instance of browser it recognizes you there session = true. for bank website sesion = false
     (req,res) =>{
         res.json({
             id: req.user.id,
