@@ -5,12 +5,11 @@ const bodyParser = require('body-parser');
 const users = require('./routes/api/users');
 const posts = require('./routes/api/posts');
 const profile = require('./routes/api/profile');
-const passport = require('passport');
+var passport = require('passport');
 
 const expressApp = express();
 
-//Body parser middleware.. express is the one getting data. urlencoded - textbox might have some characters
-// extended - you can come up with your own encoding
+//Body parser middleware.. 
 expressApp.use(bodyParser.urlencoded({extended: false}));
 expressApp.use(bodyParser.json());
 
@@ -26,7 +25,7 @@ mongoose
 //Passport middleware 
 expressApp.use(passport.initialize());
 //Passport config
-require('./config/passport')(passport);
+passport = require('./config/passport');
 
 //Let's write our first route
 expressApp.get('/',(req,res)=>{
