@@ -26,14 +26,14 @@ const profileSchema = new Schema({
         required: true
     },
     skills : {
-        type: [string],
+        type: [String],
         required : true
     },
     bio : {
-        type: string
+        type: String
     },
     githubusername:{
-        type: string
+        type: String
     },
     experience:[
         {
@@ -46,7 +46,7 @@ const profileSchema = new Schema({
                 required: true
             },
             location: {
-                type: string
+                type: String
             },
             from: {
                 type: Date,
@@ -105,7 +105,7 @@ const profileSchema = new Schema({
             type: String            
         }, 
         instagram : {
-            type: string
+            type: String
         }
     }   
 }
