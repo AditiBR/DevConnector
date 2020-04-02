@@ -32,7 +32,7 @@ router.post(
  });
 
 // @route GET api/posts
-// @desc Get posts
+// @desc Get all posts
 // @access Public
 router.get('/', (req,res) => {
     PostModel.find()       //find() is to find 0 or more unlike fineOne() is to find 1 record
